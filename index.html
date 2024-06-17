@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <style>
+        .menu {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .menu h1 {
+            margin-bottom: 20px;
+        }
+
+        .menu-item strong {
+            color: #0a0a0a; 
+        }
+
+
+        .menu-item {
+            list-style-type: none;
+            margin-top: 20px;
+        }
+
+        .menu-item div {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-item img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        #receipt {
+            margin-top: 20px;
+        }
+
+        body {
+            background-color: #e7a643; 
+        }
+
+        #total-price {
+            font-size: 18px; 
+            font-weight: bold; 
+            color: #161616; 
+        }
+
+        .filter-button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            background-color: #7457db; 
+            color: #d3dadf; 
+            border-radius: 5px; 
+            cursor: pointer;
+            transition: background-color 0.3s; 
+        }
+
+        .filter-button:hover {
+            background-color: #a0afd6; 
+        }
+
+        .filter-button:focus {
+            outline: none; 
+        }
+
+        .menu-item-checkbox {
+            margin-right: 10px;
+            order: -1;
+        }       
+        
+        .menu h1 {
+            margin-bottom: 20px;
+            color: #0c0c0c; 
+        }
+
+        .menu-item {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+
+        .menu-item div {
+            display: flex;
+            align-items: center;
+            font-size: 18px; 
+        }
+
+        .menu-item img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+            border-radius: 5px; 
+        }
+
+        .menu-item strong {
+            color: #0c0c0c; 
+        }
+
+        .menu-item-checkbox {
+            margin-right: 10px;
+        }
+
+        #receipt {
+            margin-top: 20px;
+        }
+
+        #receipt h2 {
+            color: #333;
+        }
+
+        #selected-items {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #selected-items li {
+            margin-bottom: 5px;
+            font-size: 16px; 
+            color: #666; 
+        }
+
+        #total-price {
+            font-size: 18px; 
+            font-weight: bold; 
+            color: #333; 
+        }
+
+        
+        .filter-button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            background-color: #4CAF50; 
+            color: #fff; 
+            border: none;
+            border-radius: 5px; 
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .filter-button:hover {
+            background-color: #45a049; 
+        }
+
+        .filter-button:focus {
+            outline: none; 
+        }
+
+
+        #total-button {
+            padding: 10px 20px;
+            background-color: #007bff; 
+            color: #fff; 
+            border: none;
+            border-radius: 5px; 
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #total-button:hover {
+            background-color: #0056b3;
+        }
+
+        #total-button:focus {
+            outline: none; 
+        }
+    </style>
+</head>
+<body>
+
+    
+    <div class="menu">
+        <h1 style="text-emphasis-color: rgb(153, 43, 226);">Restaurant Menu</h1>
+        <div id="filter-buttons">
+            <button onclick="filterMenu('mainDishes')">Main Dish</button>
+            <button onclick="filterMenu('vegetables')">Vegetables</button>
+            <button onclick="filterMenu('desserts')">Desserts</button>
+            <button onclick="filterMenu('drinks')">Drinks</button>
+            <button onclick="filterMenu('addOns')">Add Ons</button>
+        </div>
+        <ul id="menu-list">
+           
+        </ul>
+        <div id="receipt">
+            <h2>Receipt</h2>
+            <ul id="selected-items">
+                
+            </ul>
+            <p>Total: $<span id="total-price">0.00</span></p>
+        </div>
+        <button id="total-button" onclick="calculateTotal()">Total</button>
+    </div>
+        
+        </ul>
+    </div>
+
+    <script>
+       
+        const menuItems = [
+            { name: "Fettuccine Alfredo", category: "mainDishes", price: 50.00, image: "Fettuccine_Alfredo.jpg" },
+            { name: "Meatball Casserole", category: "mainDishes", price: 40.00, image: "Meatball_Casserole.jpg" },
+            { name: "Honey-Garlic Chicken", category: "mainDishes", price: 69.00, image: "Honey-Garlic_Chicken.jpg" },
+            { name: "Chicken Nachos", category: "mainDishes", price: 39.00, image: "Chicken_Nachoes.jpg" },
+            { name: "Pan-Seared Salmon", category: "mainDishes", price: 75.00, image: "Pan-Seared_Salmon.jpg" },
+            { name: "Speedy Grain Salad With Sugar Snap Peas", category: "vegetables", price: 40.66, image: "Speedy Grain Salad With Sugar Snap Peas.jpg" },
+            { name: "Brussels Sprouts With Bacon And Shallots", category: "vegetables", price: 30.88, image: "Brussels Sprouts With Bacon And Shallots.jpg" },
+            { name: "Smashed Fried Potatoes With Field Peas And Corn", category: "vegetables", price: 29.99, image: "Smashed Fried Potatoes With Field Peas And Corn.jpg" },
+            { name: "German Chocolate Cake", category: "desserts", price: 25.00, image: "German Chocolate Cake.jpg" },
+            { name: "Luscious Lemon Bars", category: "desserts", price: 15.00, image: "Luscious Lemon Bars.jpg" },
+            { name: "Chocolate Fudge", category: "desserts", price: 13.00, image: "Chocolate Fudge.jpg" },
+            { name: "Iced Tea", category: "drinks", price: 2.99, image: "Iced Tea.jpg" },
+            { name: "Hurricane", category: "drinks", price: 5.60, image: "Hurricane.jpg" },
+            { name: "Bushwacker", category: "drinks", price: 7.40, image: "Bushwacker.jpg" },
+            { name: "Fries", category: "addOns", price: 3.99, image: "Fries.jpg" },
+            { name: "Rice", category: "addOns", price: 2.00, image: "Rice.jpg" },
+            { name: "Chili Sauce", category: "addOns", price: 4.50, image: "Chili Sauce.jpg" },
+
+        ];
+
+
+        function displayMenu(items) {
+            const menuList = document.getElementById("menu-list");
+
+            
+            menuList.innerHTML = "";
+
+            
+            items.forEach(item => {
+                const menuItem = document.createElement("li");
+                menuItem.classList.add("menu-item");
+                menuItem.innerHTML = `
+                    <div>
+                        <img src="images/${item.image}" alt="${item.name}">
+                        <strong>${item.name}</strong> - $${item.price.toFixed(2)}
+                    </div>`;
+                menuList.appendChild(menuItem);
+            });
+        }
+
+       
+        function filterMenu(category) {
+            let filteredItems;
+            if (category === "all") {
+                filteredItems = menuItems;
+            } else {
+                filteredItems = menuItems.filter(item => item.category === category);
+            }
+            displayMenu(filteredItems);
+        }
+
+        
+        function updateReceipt(checkbox) {
+            const selectedItemsList = document.getElementById("selected-items");
+            const totalPriceElement = document.getElementById("total-price");
+            let totalPrice = 0;
+
+            
+            selectedItemsList.innerHTML = "";
+
+            const checkboxes = document.getElementsByName("item");
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const menuItem = menuItems.find(item => item.price === parseFloat(checkbox.value));
+                    const listItem = document.createElement("li");
+                    listItem.textContent = `${menuItem.name} - $${menuItem.price.toFixed(2)}`;
+                    selectedItemsList.appendChild(listItem);
+                    totalPrice += menuItem.price;
+                }
+            });
+            
+
+          
+            totalPriceElement.textContent = totalPrice.toFixed(2);
+        }
+
+        function calculateTotal() {
+            updateReceipt();
+        }
+    
+
+
+    </script>
+</body>
+</html>
